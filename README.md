@@ -15,7 +15,7 @@ To set up the Stock Forecasting App, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/stock-forecast-app.git
+   https://github.com/rahim-khan-iitg/stock_forecasting.git
    ```
 
 2. Change to the project directory:
@@ -74,8 +74,6 @@ To set up the Stock Forecasting App, follow these steps:
 ## Contributing
 
 Contributions to the Stock Forecasting App are welcome! If you find any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request.
-
-Before contributing, please review the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines.
 
 ## License
 
