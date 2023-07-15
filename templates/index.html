@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stock Prediction</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+    <fieldset style="border: 3px solid white; border-radius: 10px;margin: 20px; padding: 20px;">
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <label for="options" style="font-size: 25px;">Search for the Company</label>
+                </div>
+            </div>
+            <form action="{% url 'home' %}" method="post">
+                {% csrf_token %}
+                <div class="row ">
+                    <div class="col-5">
+                        <input type="search" name="company" id="options" list="keywords" class="form-control mt-2" required>
+                        
+                        <datalist id="keywords"></datalist>
+                    </div>
+                    <div class="col" style="margin-left: 0px;">
+                        <select class="form-select mt-2" aria-label=".form-select-sm example" name="select">
+                            <option value="close">close</option>
+                            <option value="open">open</option>
+                            <option value="high">high</option>
+                            <option value="low">low</option>
+                            <option value="adjusted_close">adjusted_close</option>
+                            <option value="volume">volume</option>
+                          </select>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-success mt-2">Load data</button>
+                    </div>
+                </div>
+            </form>
+            <div class="row text-center mt-5"><label for="">{{company}}</label></div>
+            <div class="row mt-5">
+                <canvas id="myChart" height="400" role="img"></canvas>
+            </div>
+            <div class="row mt-3">
+                <div class="col-auto">
+                    <label for="">Next Day Prediction</label>
+                    <input type="text" name="" id="" readonly class="form-control" value="{{next}}">
+                </div>
+            </div>
+        </div>
+        <textarea name="" id="data" cols="30" rows="10" hidden>{{arr}}</textarea>
+    </div>
+</fieldset>
+    <script src="https://rahimcdn.blob.core.windows.net/mycdn/tickers.js">
+    </script>
+    <script>
+        let datalist = document.getElementById("keywords")
+        let a = 0;
+        for (let i = 0; i < tickers.length; i++) {
+            let option = document.createElement('option');
+            option.value = tickers[i];
+            datalist.appendChild(option);
+            a++;
+        }
+        let data = document.getElementById("data").value
+        let arr = JSON.parse(data)
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: arr['labels'],
+                datasets: [{
+                    label: 'Predicted values',
+                    data: arr['pred'],
+                    // borderWidth: 1,
+                    borderColor: "white"
+                },
+                {
+                    label:'Real Values',
+                    data:arr['actual'],
+                    borderColor:'yellow'
+                }
+            ]
+            },
+            options: {
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+
+</html>
