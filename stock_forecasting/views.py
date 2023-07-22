@@ -14,7 +14,7 @@ def home(request):
         key=key.strip()
         obj=predict(key,select)
         test,pred,next=obj.make_prediction()
-        df=pd.read_csv(os.path.join("artifacts",'stcoks.csv'))
+        df=pd.read_csv(os.path.join("artifacts",'stocks.csv'))
         labels=list(df['Unnamed: 0'])[70:]
         data=json.dumps({"pred":pred,"labels":labels,"actual":test})
         return render(request,'index.html',{"arr":data,"next":next[0],"company":company})
